@@ -16,12 +16,19 @@ class AppThemeView extends StatelessWidget {
               appTheme.toggleTheme();
             });
           } ),
-
           Consumer<AppSettingProvider>(builder: (context,appSetting,child){
-            return SwitchListTile(title: Text("Enable Notification"),value: appSetting.notification, onChanged: (value){
+            return SwitchListTile(title: const Text("Enable Notification"),value: appSetting.notification, onChanged: (value){
               appSetting.toggleNotification();
             });
-          })
+          }),
+
+          Selector<AppSettingProvider,bool>(builder: (context,appSetting,child){
+            return SwitchListTile(title:  const Text("Enable Auto_Sync"),value:appSetting, onChanged: (value){
+              Provider.of<AppSettingProvider>(
+                context,listen: true
+              ).toggleAutoSync();
+            });
+          }, selector: (context,appSetting)=>appSetting.autoSyncEnabled)
         ],
       ),
     );

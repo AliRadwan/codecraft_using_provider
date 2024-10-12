@@ -45,7 +45,11 @@ class MyApp extends StatelessWidget {
                   builder: (context,appSetting,child) {
                     return Icon(appSetting.notification? Icons.notifications:Icons.notifications_off_rounded);
                   }
-                )
+                ),
+              Selector<AppSettingProvider,bool>(builder: (context,appSetting,child){
+                return Icon(appSetting? Icons.sync:Icons.sync_disabled);
+              }, selector: (context,appSetting)=>appSetting.autoSyncEnabled)
+
             ],
             ),
             // backgroundColor: Colors.deepOrangeAccent,
