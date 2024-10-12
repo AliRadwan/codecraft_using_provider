@@ -1,4 +1,3 @@
-import 'package:codecraft/mock_data.dart';
 import 'package:codecraft/parsing_data.dart';
 import 'package:codecraft/setting/app_setting_provider.dart';
 import 'package:codecraft/theme/app_theme_provider.dart';
@@ -8,9 +7,6 @@ import 'package:codecraft/users/repositories/implementation/guest_Type.dart';
 import 'package:codecraft/users/repositories/implementation/owner_type.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'dart:convert';
-import 'models/book.dart';
-
 void main() {
   runApp(
     MultiProvider(providers:[
