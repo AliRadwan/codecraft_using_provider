@@ -24,9 +24,8 @@ class AppThemeView extends StatelessWidget {
 
           Selector<AppSettingProvider,bool>(builder: (context,appSetting,child){
             return SwitchListTile(title:  const Text("Enable Auto_Sync"),value:appSetting, onChanged: (value){
-              Provider.of<AppSettingProvider>(
-                context,listen: true
-              ).toggleAutoSync();
+              Provider.of<AppSettingProvider>(context,listen: true).toggleAutoSync();
+              // context.read<AppSettingProvider>().toggleAutoSync();
             });
           }, selector: (context,appSetting)=>appSetting.autoSyncEnabled)
         ],

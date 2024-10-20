@@ -2,18 +2,21 @@ import 'package:codecraft/parsing_data.dart';
 import 'package:codecraft/setting/app_setting_provider.dart';
 import 'package:codecraft/theme/app_theme_provider.dart';
 import 'package:codecraft/theme/app_theme_view.dart';
+import 'package:codecraft/ui/screen1.dart';
 import 'package:codecraft/users/repositories/i_user_type.dart';
 import 'package:codecraft/users/repositories/implementation/guest_Type.dart';
 import 'package:codecraft/users/repositories/implementation/owner_type.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 void main() {
+  final RouteObserver<ModalRoute> routeObserver =  RouteObserver<ModalRoute>();
+
   runApp(
     MultiProvider(providers:[
       ChangeNotifierProvider(create: (_)=> AppThemeProvider()),
       ChangeNotifierProvider(create: (_)=> AppSettingProvider()),
     ],
-      child: const MyApp(),
+      child: MyApp(routeObserver: routeObserver),
     )
      );
   // example if you have different type of user in your app
@@ -30,7 +33,9 @@ void getUserType(UserType userType){
 
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, required this.routeObserver});
+
+  final RouteObserver routeObserver;
 
   @override
   Widget build(BuildContext context) {
@@ -38,28 +43,8 @@ class MyApp extends StatelessWidget {
       builder: (context,appTheme,child) {
         return MaterialApp(
           theme: appTheme.currentTheme,
-          home:  Scaffold(
-            appBar: AppBar( 
-              title: const Text("Code Craft"),actions: [
-                Consumer<AppSettingProvider>(
-                  builder: (context,appSetting,child) {
-                    return Icon(appSetting.notification? Icons.notifications:Icons.notifications_off_rounded);
-                  }
-                ),
-              Selector<AppSettingProvider,bool>(builder: (context,appSetting,child){
-                return Icon(appSetting? Icons.sync:Icons.sync_disabled);
-              }, selector: (context,appSetting)=>appSetting.autoSyncEnabled)
-
-            ],
-            ),
-            // backgroundColor: Colors.deepOrangeAccent,
-            body: const Column(
-              children: [
-                ParsingDataView(),
-                AppThemeView()
-              ],
-            ),
-          ),
+          navigatorObservers: [routeObserver],
+          home:  Screen1(routeObserver: routeObserver,)
         );
       });
   }
