@@ -1,3 +1,5 @@
+import 'package:codecraft/core/utils/connectivity_provider.dart';
+import 'package:codecraft/main.dart';
 import 'package:codecraft/parsing_data.dart';
 import 'package:codecraft/setting/app_setting_provider.dart';
 import 'package:codecraft/theme/app_theme_view.dart';
@@ -54,6 +56,9 @@ class _Screen1State extends State<Screen1> with RouteAware{
 
   @override
   Widget build(BuildContext context) {
+    final status = context.connectionStatus;
+    final status1 = Provider.of<ConnectivityProvider>(context).status;
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.next_plan),
@@ -77,10 +82,20 @@ class _Screen1State extends State<Screen1> with RouteAware{
       ],
       ),
       // backgroundColor: Colors.deepOrangeAccent,
-      body: const Column(
+      body: Column(
         children: [
-          ParsingDataView(),
-          AppThemeView()
+          Text('Connection status: $status1'),
+      Consumer<ConnectivityProvider>(
+      builder: (context, provider, child) {
+    return Text('Connection status: ${provider.status}');
+    },
+    ),
+          Text('Connection status: $status'),
+          AppSearchField(hintText: 'fpe',),
+          ElevatedButton(onPressed: ()=>AppBottomSheet.show(context: context , widget: Text("Ali")), child: const Text("Ali")),
+          ElevatedButton(onPressed: ()=>AppBottomSheet.showBottomSheet(context: context , widget: Text("Ali")), child: const Text("Ali")),
+          const ParsingDataView(),
+          const AppThemeView()
         ],
       ),
     );
